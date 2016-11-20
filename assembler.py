@@ -24,6 +24,7 @@ def assemble(line):
 with open(input("Enter Assembly File: ")) as f:
         lines = f.readlines()
 print("\nMACHINE CODE", "HEX")
+output = ""
 for i in lines:
         if '#' in i:
                 i = i[:i.index('#')] #remove comments
@@ -31,8 +32,11 @@ for i in lines:
         if not i:
                 continue # skip if line has no code
         code = assemble(i)
+        output += hex(int(code, 2))[2:]+" "
         print(code,hex(int(code, 2)))
-
+with open("machinecode",'w') as f:
+        f.write("v2.0 raw\n"+output+"\n")
+        
 input()
 
     
