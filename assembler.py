@@ -2,7 +2,7 @@ opcodes = {'lw':"0000",'sw':"0001",'addi':"0010",'add':"0011",'sub':"0100"}
 registers = {'$zero':'00','$t0':'01','$t1':'10','$t2':'11'}
 
 def assemble(line):
-        line = "".join(line.split()) #remove whitespace
+        
         i=line.index('$')
         op = line[:i]
         line = line[i:].split(',')
@@ -22,10 +22,16 @@ def assemble(line):
         return opcodes[op]+registers[rs]+registers[rt]+rd
             
 with open(input("Enter Assembly File: ")) as f:
-    lines = f.readlines()
-    
+        lines = f.readlines()
+print("\nMACHINE CODE", "HEX")
 for i in lines:
-    print(assemble(i))
+        if '#' in i:
+                i = i[:i.index('#')] #remove comments
+        i = "".join(i.split()) #remove whitespace
+        if not i:
+                continue # skip if line has no code
+        code = assemble(i)
+        print(code,hex(int(code, 2)))
 
 input()
 
